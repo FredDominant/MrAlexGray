@@ -189,6 +189,24 @@ fun RepoCell(gitHubRepo: GitHubRepo) {
                 )
                 Spacer(modifier = Modifier.height(3.dp))
             }
+            if (gitHubRepo.createdDate.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(3.dp))
+                RepoDetailsItem(
+                    modifier = Modifier.padding(horizontal = 4.dp),
+                    title = "Created On",
+                    description = gitHubRepo.createdDate,
+                )
+                Spacer(modifier = Modifier.height(3.dp))
+            }
+            if (gitHubRepo.updatedDate.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(3.dp))
+                RepoDetailsItem(
+                    modifier = Modifier.padding(horizontal = 4.dp),
+                    title = "Last Update",
+                    description = gitHubRepo.updatedDate
+                )
+                Spacer(modifier = Modifier.height(3.dp))
+            }
             if (gitHubRepo.licence.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(3.dp))
                 RepoDetailsItem(
@@ -272,7 +290,7 @@ fun RepoDetailsItem(
                 append(description)
                 addStyle(
                     style = SpanStyle(
-                        color = Color.Magenta,
+                        color = Color.Blue,
                         textDecoration = TextDecoration.Underline,
                         fontSize = MaterialTheme.typography.h6.fontSize
                     ),

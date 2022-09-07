@@ -77,4 +77,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
+    // Date/Time formatter
+    implementation "org.threeten:threetenbp:$threetenbp_version"
+
 }

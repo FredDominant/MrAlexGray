@@ -72,6 +72,7 @@ class MrAlexGrayViewModel @Inject constructor(
     : GitHubReposViewState {
         val repos = if (isPaginating) currentGitHubRepos + gitHubRepos else gitHubRepos
         currentGitHubRepos = repos
+        println(repos.first())
         return GitHubReposViewState(
             isLoading = false,
             hasError = false,

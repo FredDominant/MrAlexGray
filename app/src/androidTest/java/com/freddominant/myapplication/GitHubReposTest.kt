@@ -105,6 +105,8 @@ class GitHubReposTest {
             defaultBranch = null,
             allowForking = true,
             fullName = null,
+            createdAt = "2012-10-06T16:37:39Z",
+            lastUpdateAt = "2012-10-06T16:37:39Z"
         )
 
         private val dummyGitHubRepoDTOs = listOf(
