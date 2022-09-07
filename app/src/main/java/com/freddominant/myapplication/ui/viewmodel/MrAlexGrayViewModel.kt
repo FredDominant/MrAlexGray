@@ -1,6 +1,5 @@
 package com.freddominant.myapplication.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.freddominant.myapplication.CoroutineContextProvider
@@ -30,10 +29,12 @@ class MrAlexGrayViewModel @Inject constructor(
 
     val viewState: StateFlow<GitHubReposViewState> = _viewState
     var currentGitHubRepos = emptyList<GitHubRepo>()
+    private set
 
     var nextPageToFetch = 0
+    private set
 
-    init {
+    fun initialise() {
         setLoadingState(isFetchingMore = false)
         fetchRepositories(page = nextPageToFetch)
     }
@@ -65,7 +66,10 @@ class MrAlexGrayViewModel @Inject constructor(
         )
     }
 
-    private fun handleSuccess(gitHubRepos: List<GitHubRepo>, isPaginating: Boolean): GitHubReposViewState {
+    private fun handleSuccess(
+        gitHubRepos: List<GitHubRepo>,
+        isPaginating: Boolean = false)
+    : GitHubReposViewState {
         val repos = if (isPaginating) currentGitHubRepos + gitHubRepos else gitHubRepos
         currentGitHubRepos = repos
         return GitHubReposViewState(

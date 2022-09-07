@@ -21,6 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -62,6 +64,20 @@ fun ReposView(gitHubRepos: List<GitHubRepo>, isFetchingMore: Boolean, handleFetc
                 )
             }
         }
+    }
+}
+
+@Composable
+fun Content(state: GitHubReposViewState, handleFetchMore: () -> Unit) {
+    when {
+        state.isLoading -> LoadingView()
+        state.hasError -> ErrorView()
+        state.repos.isEmpty() -> NoReposView()
+        else -> ReposView(
+            gitHubRepos = state.repos,
+            isFetchingMore = state.isFetchingMore,
+            handleFetchMore = handleFetchMore
+        )
     }
 }
 
@@ -118,7 +134,8 @@ fun ErrorView() {
 @Composable
 fun LoadingView() {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .semantics { contentDescription = "Loading indicator" },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
