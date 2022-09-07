@@ -23,6 +23,10 @@ data class GitHubRepoDTO(
     val allowForking: Boolean,
     @Json(name = "full_name")
     val fullName: String?,
+    @Json(name = "created_at")
+    val createdAt: String?,
+    @Json(name = "updated_at")
+    val lastUpdateAt: String?
 )
 
 data class RepoOwner(

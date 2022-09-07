@@ -21,6 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -62,6 +64,20 @@ fun ReposView(gitHubRepos: List<GitHubRepo>, isFetchingMore: Boolean, handleFetc
                 )
             }
         }
+    }
+}
+
+@Composable
+fun Content(state: GitHubReposViewState, handleFetchMore: () -> Unit) {
+    when {
+        state.isLoading -> LoadingView()
+        state.hasError -> ErrorView()
+        state.repos.isEmpty() -> NoReposView()
+        else -> ReposView(
+            gitHubRepos = state.repos,
+            isFetchingMore = state.isFetchingMore,
+            handleFetchMore = handleFetchMore
+        )
     }
 }
 
@@ -118,7 +134,8 @@ fun ErrorView() {
 @Composable
 fun LoadingView() {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .semantics { contentDescription = "Loading indicator" },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -169,6 +186,24 @@ fun RepoCell(gitHubRepo: GitHubRepo) {
                     description = gitHubRepo.fullName,
                     isClickableLink = true,
                     url = gitHubRepo.repoUrl
+                )
+                Spacer(modifier = Modifier.height(3.dp))
+            }
+            if (gitHubRepo.createdDate.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(3.dp))
+                RepoDetailsItem(
+                    modifier = Modifier.padding(horizontal = 4.dp),
+                    title = "Created On",
+                    description = gitHubRepo.createdDate,
+                )
+                Spacer(modifier = Modifier.height(3.dp))
+            }
+            if (gitHubRepo.updatedDate.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(3.dp))
+                RepoDetailsItem(
+                    modifier = Modifier.padding(horizontal = 4.dp),
+                    title = "Last Update",
+                    description = gitHubRepo.updatedDate
                 )
                 Spacer(modifier = Modifier.height(3.dp))
             }
@@ -255,7 +290,7 @@ fun RepoDetailsItem(
                 append(description)
                 addStyle(
                     style = SpanStyle(
-                        color = Color.Magenta,
+                        color = Color.Blue,
                         textDecoration = TextDecoration.Underline,
                         fontSize = MaterialTheme.typography.h6.fontSize
                     ),

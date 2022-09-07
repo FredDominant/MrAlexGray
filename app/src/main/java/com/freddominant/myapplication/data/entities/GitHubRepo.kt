@@ -19,5 +19,7 @@ data class GitHubRepo(
     val watchersCount: Int,
     val licence: String,
     val licenceUrl: String,
+    val createdDate: String,
+    val updatedDate: String,
     @DrawableRes val dummyImageResource: Int
 )
